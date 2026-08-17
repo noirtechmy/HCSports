@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HC Sports Clinic &amp; Physio — Seksyen 13, Shah Alam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   NOIRTECH — PHYSIO / REHAB CLINIC TEMPLATE
+   Built around CONDITIONS and SESSION COUNTS, because "how many
+   sessions will I need and what will it cost" is the question
+   every physio site refuses to answer.
+   Re-skin: edit tokens below + CONFIG in the script.
+   ⚠ ADD PHOTOS — team and clinic each take a `photo:` URL.
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --navy:#16233D;
+  --navy-2:#22335A;
+  --paper:#F7F8FA;
+  --card:#FFFFFF;
+  --ink:#16233D;
+  --muted:#5D6B85;
+  --line:#E1E6EE;
+  --pulse:#E4572E;
+  --pulse-lift:#F26B41;
+  --pulse-soft:#FDEDE7;
+  --sun:#F2B705;
+  --sun-soft:#FEF6E0;
+  --go:#2E8B6B;
+
+  --display:"Sora",system-ui,sans-serif;
+  --body:"Plus Jakarta Sans",system-ui,-apple-system,sans-serif;
+  --gut:clamp(18px,4.5vw,56px);
+  --r:12px;
+  --shadow:0 2px 4px rgba(22,35,61,.04),0 12px 28px rgba(22,35,61,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.1;letter-spacing:-.025em}
+a{color:inherit} img{display:block;max-width:100%}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--pulse);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:var(--gut)}
+.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--pulse)}
+
+.btn{border:none;cursor:pointer;font-weight:600;font-size:15px;padding:14px 26px;border-radius:100px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;transition:.16s}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--navy-2)}
+.btn-pulse{background:var(--pulse);color:#fff}
+.btn-pulse:hover:not(:disabled){background:var(--pulse-lift)}
+.btn-outline{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn-outline:hover{border-color:var(--navy)}
+.btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3)}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.btn:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+
+/* ── Chrome ────────────────────────────────────────────────── */
+.sample{background:var(--sun-soft);color:#6B5200;text-align:center;font-size:12px;padding:9px 16px;line-height:1.45;border-bottom:1px solid rgba(242,183,5,.3)}
+.sample b{color:#8A6A00}
+.ann{background:var(--navy);color:#fff;text-align:center;font-size:12.5px;padding:10px 16px}
+.ann b{color:var(--sun)}
+header{position:sticky;top:0;z-index:60;background:rgba(247,248,250,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:24px;height:74px}
+.mark{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.035em;text-decoration:none;white-space:nowrap;line-height:1.1}
+.mark span{color:var(--pulse)}
+.mark small{display:block;font-family:var(--body);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.nav-links{display:flex;gap:24px;margin-left:auto}
+.nav-links a{text-decoration:none;font-size:14.5px;font-weight:600;color:var(--muted);padding:6px 0;border-bottom:2px solid transparent;transition:.15s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.on{color:var(--ink);border-bottom-color:var(--pulse)}
+.burger{display:none;background:none;border:none;cursor:pointer;padding:8px;margin-left:auto}
+.burger span{display:block;width:23px;height:2px;background:var(--navy);margin:5px 0;border-radius:2px}
+
+.page{display:none;animation:fade .3s ease}
+.page.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.ph{position:relative;background:linear-gradient(150deg,#E6EAF2,#DFE9EE 55%,#F0E8E2);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:8px}
+.ph-empty svg{width:30px;height:30px;opacity:.3}
+.ph-empty b{display:block;font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);opacity:.85;margin-top:6px;font-weight:700}
+
+/* ── Hero ──────────────────────────────────────────────────── */
+.hero{background:var(--navy);color:#fff;padding:clamp(44px,6.5vw,76px) 0 clamp(36px,5vw,56px);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 50% at 88% 10%,rgba(228,87,46,.32),transparent 62%)}
+.hero .wrap{position:relative;z-index:1}
+.hero .eyebrow{color:var(--sun)}
+.hero h1{font-size:clamp(34px,5.6vw,58px);margin:14px 0 16px;max-width:16ch}
+.hero .lede{font-size:clamp(15.5px,1.9vw,18px);color:rgba(255,255,255,.78);max-width:52ch}
+
+/* ── SIGNATURE: condition picker ───────────────────────────── */
+.picker{margin-top:clamp(28px,4vw,42px)}
+.picker-h{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:14px}
+.cond-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:10px}
+.cond{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.16);border-radius:var(--r);padding:16px 16px 18px;cursor:pointer;text-align:left;transition:.16s;color:#fff;font:inherit}
+.cond:hover{background:rgba(255,255,255,.15);border-color:var(--sun);transform:translateY(-3px)}
+.cond b{display:block;font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:5px;line-height:1.25}
+.cond span{font-size:12px;color:rgba(255,255,255,.62)}
+
+.trust{border-bottom:1px solid var(--line);background:var(--card)}
+.trust-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line)}
+.trust-in>div{background:var(--card);padding:22px 20px;text-align:center}
+.trust-in strong{display:block;font-family:var(--display);font-size:15px;font-weight:700;margin-bottom:3px}
+.trust-in span{font-size:12.5px;color:var(--muted)}
+
+.sec{padding:clamp(44px,6.5vw,78px) 0}
+.sec.tint{background:var(--card)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:30px}
+.sec-head h2{font-size:clamp(26px,3.8vw,40px)}
+.sec-head p{color:var(--muted);font-size:15px;margin-top:9px;max-width:56ch}
+
+/* ── Condition detail ──────────────────────────────────────── */
+.cond-detail{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.cd-top{width:100%;background:none;border:none;cursor:pointer;text-align:left;padding:22px 26px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;font:inherit;color:inherit}
+.cd-top h3{font-size:20px;flex:1;min-width:180px}
+.cd-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pill{font-size:12px;font-weight:700;padding:6px 13px;border-radius:100px;background:var(--pulse-soft);color:var(--pulse);white-space:nowrap}
+.pill.cost{background:var(--sun-soft);color:#8A6A00}
+.chev{width:10px;height:10px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:.25s;flex-shrink:0}
+.cond-detail.open .chev{transform:rotate(-135deg)}
+.cd-body{display:none;padding:0 26px 28px;border-top:1px solid var(--line)}
+.cond-detail.open .cd-body{display:block}
+.cd-body>p{color:var(--muted);font-size:15px;max-width:62ch;margin:22px 0 26px}
+
+/* Session journey bar */
+.journey{margin-bottom:28px}
+.j-head{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:16px}
+.j-track{display:flex;gap:4px;margin-bottom:12px}
+.j-step{flex:1;height:8px;border-radius:100px;background:var(--line);position:relative}
+.j-step.fill{background:var(--pulse)}
+.j-step.taper{background:linear-gradient(90deg,var(--pulse),var(--line))}
+.j-notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px}
+.j-note b{display:block;font-family:var(--display);font-size:13px;font-weight:700;color:var(--pulse);margin-bottom:4px}
+.j-note span{font-size:13.5px;color:var(--muted);line-height:1.5}
+
+/* Home exercises */
+.ex-head{font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:14px}
+.ex-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-bottom:20px}
+.ex{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.ex b{display:block;font-size:14.5px;font-weight:700;margin-bottom:3px}
+.ex span{font-size:12.5px;color:var(--muted)}
+.ex-note{background:var(--sun-soft);border-radius:10px;padding:12px 15px;font-size:12.5px;color:#6B5200;line-height:1.5}
+
+/* ── Team ──────────────────────────────────────────────────── */
+.team{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.member{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:.18s}
+.member:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.member .ph{aspect-ratio:1}
+.member-body{padding:16px 18px 20px;flex:1;display:flex;flex-direction:column}
+.member-body h3{font-size:19px;margin-bottom:4px}
+.member-body .role{font-size:13px;color:var(--pulse);font-weight:600;margin-bottom:9px}
+.member-body .bio{font-size:13.5px;color:var(--muted);flex:1}
+
+/* ── Pricing ───────────────────────────────────────────────── */
+.price-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.price-row{background:var(--card);padding:20px 22px;display:flex;align-items:baseline;gap:14px}
+.price-row .nm{flex:1}
+.price-row h3{font-size:16.5px;margin-bottom:3px}
+.price-row .dur{font-size:12.5px;color:var(--muted)}
+.price-row .amt{font-family:var(--display);font-size:24px;font-weight:700;color:var(--navy)}
+
+/* ── Booking ───────────────────────────────────────────────── */
+.booking{display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}
+.step{margin-bottom:26px}
+.step-h{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:13px;display:flex;align-items:center;gap:10px}
+.step-h i{font-style:normal;width:23px;height:23px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:11.5px;font-weight:700;font-family:var(--body)}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{padding:12px 17px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;font-size:14px;font-weight:600;line-height:1.25;text-align:center;transition:.15s}
+.opt small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-top:2px}
+.opt:hover:not(:disabled){border-color:var(--navy)}
+.opt.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.opt.on small{color:rgba(255,255,255,.75)}
+.opt:disabled{opacity:.3;cursor:not-allowed;text-decoration:line-through}
+.field{margin-bottom:17px}
+.field label{display:block;font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;margin-bottom:8px;color:var(--muted)}
+.field input,.field select,.field textarea{width:100%;padding:13px 15px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);font-size:15px}
+.field textarea{resize:vertical;min-height:82px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--pulse);outline:none}
+.summary{background:var(--navy);color:#fff;padding:28px 26px;border-radius:var(--r);position:sticky;top:96px}
+.summary h3{font-size:21px;margin-bottom:18px}
+.srow{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:14px}
+.srow:last-of-type{border-bottom:none}
+.srow span:first-child{color:rgba(255,255,255,.62)}
+.srow span:last-child{font-weight:600;text-align:right}
+.summary .btn{width:100%;margin-top:20px}
+.summary .note{font-size:12.5px;color:rgba(255,255,255,.58);margin-top:13px;line-height:1.5}
+.err{color:#FFB0A0;font-size:13px;margin-top:10px;display:none;font-weight:600}
+.err.on{display:block}
+
+.hours{list-style:none;max-width:340px}
+.hours li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.hours li:last-child{border-bottom:none}
+.hours .closed{color:var(--muted)}
+.info-block{margin-bottom:26px}
+.info-block .eyebrow{margin-bottom:8px;color:var(--muted)}
+.info-block a{text-decoration:none}
+.info-block a:hover{color:var(--pulse)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+
+footer{background:var(--navy);color:rgba(255,255,255,.6);padding:46px 0 26px;font-size:14px}
+.foot-top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.14)}
+.foot-top .mark{color:#fff}
+.foot-nav{display:flex;gap:22px;flex-wrap:wrap}
+.foot-nav a{text-decoration:none}
+.foot-nav a:hover{color:#fff}
+.foot-bot{padding-top:20px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:12.5px;color:rgba(255,255,255,.4)}
+
+.wa-float{position:fixed;right:20px;bottom:20px;z-index:80;width:56px;height:56px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 6px 20px rgba(22,35,61,.28);text-decoration:none;transition:.2s}
+.wa-float:hover{transform:scale(1.07)}
+.wa-float svg{width:30px;height:30px;fill:#fff}
+
+@media(max-width:960px){
+  .booking{grid-template-columns:1fr}
+  .summary{position:static}
+  .two{grid-template-columns:1fr;gap:34px}
+}
+@media(max-width:720px){
+  .nav-links{display:none;position:absolute;top:74px;left:0;right:0;background:var(--paper);flex-direction:column;gap:0;padding:4px var(--gut) 14px;border-bottom:1px solid var(--line)}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:13px 0;border-bottom:1px solid var(--line)}
+  .burger{display:block}
+  .cd-meta{width:100%}
+  .team{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="sample" id="sampleBar"></div>
+<div class="ann" id="ann"></div>
+<header>
+  <nav class="wrap nav">
+    <a href="#home" class="mark" data-go="home">HC Sports <span>Clinic</span><small>Physio &amp; Rehab</small></a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navlinks">
+      <a href="#home" data-go="home" class="on">Home</a>
+      <a href="#conditions" data-go="conditions">What we treat</a>
+      <a href="#team" data-go="team">Our team</a>
+      <a href="#book" data-go="book">Book</a>
+      <a href="#visit" data-go="visit">Find us</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ══ HOME ══ -->
+<main id="home" class="page on">
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Sports &amp; rehab clinic · Seksyen 13, Shah Alam</p>
+      <h1>We'll tell you how many sessions it takes.</h1>
+      <p class="lede">Most clinics won't. We publish the typical number of sessions and the cost for every condition we treat, before you book — along with the exercises you'll be doing at home between visits.</p>
+
+      <div class="picker">
+        <p class="picker-h">Where does it hurt?</p>
+        <div class="cond-row" id="condRow"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust">
+    <div class="wrap trust-in">
+      <div><strong>Doctor on site</strong><span>Assessment before treatment</span></div>
+      <div><strong>No packages pushed</strong><span>Pay session by session</span></div>
+      <div><strong>Session counts published</strong><span>You know what you're in for</span></div>
+      <div><strong>Exercises to take home</strong><span>Sent to your phone after each visit</span></div>
+    </div>
+  </section>
+
+  <section class="sec tint">
+    <div class="wrap">
+      <div class="sec-head"><div><h2>What a first visit looks like</h2><p>Sixty minutes. You'll leave with an assessment, a treatment, and a plan — not a package to sign.</p></div></div>
+      <div class="j-notes">
+        <div class="j-note"><b>0 – 15 min</b><span>Consultation. What happened, what you've tried, what you need to get back to.</span></div>
+        <div class="j-note"><b>15 – 30 min</b><span>Physical assessment. Movement, strength, and where the pain actually originates.</span></div>
+        <div class="j-note"><b>30 – 50 min</b><span>First treatment. Manual work, and machine therapy where it helps.</span></div>
+        <div class="j-note"><b>50 – 60 min</b><span>Your plan. Rough session count, home exercises, and what to avoid this week.</span></div>
+      </div>
+      <div style="margin-top:30px"><button class="btn btn-pulse" data-go="book">Book a first visit</button></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><div><h2>Our team</h2><p>You'll see the same therapist through your course of treatment.</p></div>
+        <button class="btn btn-outline" data-go="team">Meet everyone</button></div>
+      <div class="team" id="homeTeam"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ══ CONDITIONS ══ -->
+<main id="conditions" class="page">
+  <section class="sec"><div class="wrap">
+    <div class="sec-head"><div><h2>What we treat</h2><p>Open any condition for the typical session count, what each stage involves, and the home exercises that go with it.</p></div></div>
+    <div id="condList"></div>
+  </div></section>
+
+  <section class="sec tint"><div class="wrap">
+    <div class="sec-head"><div><h2>Pricing</h2><p>Per session. No packages, no membership, nothing to sign up front.</p></div></div>
+    <div class="price-list" id="priceList"></div>
+  </div></section>
+</main>
+
+<!-- ══ TEAM ══ -->
+<main id="team" class="page">
+  <section class="sec"><div class="wrap">
+    <div class="sec-head"><div><h2>Our team</h2><p>Ask for whoever you'd prefer when you book — we'll keep you with them throughout.</p></div></div>
+    <div class="team" id="allTeam"></div>
+  </div></section>
+</main>
+
+<!-- ══ BOOK ══ -->
+<main id="book" class="page">
+  <section class="sec"><div class="wrap">
+    <div class="sec-head"><div><h2>Book an appointment</h2><p>Your details go straight to the clinic's WhatsApp and you'll get a confirmation back.</p></div></div>
+    <div class="booking">
+      <div>
+        <div class="step">
+          <p class="step-h"><i>1</i>Is this your first visit?</p>
+          <div class="opts" id="bVisit"></div>
+        </div>
+        <div class="step">
+          <p class="step-h"><i>2</i>What's bothering you</p>
+          <div class="opts" id="bCond"></div>
+        </div>
+        <div class="step">
+          <p class="step-h"><i>3</i>Who would you like to see</p>
+          <div class="opts" id="bTeam"></div>
+        </div>
+        <div class="step">
+          <p class="step-h"><i>4</i>When</p>
+          <div class="field"><label for="bDate">Date</label><input type="date" id="bDate"></div>
+          <div class="field"><label>Time</label><div class="opts" id="bTimes"></div></div>
+        </div>
+        <div class="step">
+          <p class="step-h"><i>5</i>Your details</p>
+          <div class="field"><label for="bName">Name</label><input type="text" id="bName" placeholder="Your name"></div>
+          <div class="field"><label for="bPhone">Phone</label><input type="tel" id="bPhone" placeholder="012-345 6789"></div>
+          <div class="field"><label for="bNotes">Tell us briefly what's going on <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
+            <textarea id="bNotes" placeholder="When it started, what makes it worse, anything you've already tried, whether you have scans…"></textarea></div>
+        </div>
+      </div>
+
+      <aside class="summary">
+        <h3>Your appointment</h3>
+        <div class="srow"><span>Visit</span><span id="sVisit">Not chosen</span></div>
+        <div class="srow"><span>Concern</span><span id="sCond">—</span></div>
+        <div class="srow"><span>With</span><span id="sWho">Anyone available</span></div>
+        <div class="srow"><span>Date</span><span id="sDate">—</span></div>
+        <div class="srow"><span>Time</span><span id="sTime">—</span></div>
+        <div class="srow"><span>Session fee</span><span id="sFee">—</span></div>
+        <button class="btn btn-pulse" id="confirm">Send on WhatsApp</button>
+        <p class="err" id="err"></p>
+        <p class="note">Nothing charged now. The clinic confirms your slot by message before your visit.</p>
+      </aside>
+    </div>
+  </div></section>
+</main>
+
+<!-- ══ VISIT ══ -->
+<main id="visit" class="page">
+  <section class="sec"><div class="wrap">
+    <div class="sec-head"><div><h2>Find us</h2></div></div>
+    <div class="two">
+      <div>
+        <div class="info-block"><p class="eyebrow">Clinic</p><p id="vAddr"></p></div>
+        <div class="info-block"><p class="eyebrow">WhatsApp &amp; phone</p><p><a id="vPhone" href="#"></a></p></div>
+        <div class="info-block"><p class="eyebrow">Hours</p><ul class="hours" id="vHours"></ul></div>
+        <a class="btn btn-outline" id="mapBtn" href="#" target="_blank" rel="noopener">Open in Google Maps</a>
+      </div>
+      <div>
+        <div class="ph" style="aspect-ratio:4/3;border-radius:var(--r)" data-ph="Clinic photo"></div>
+        <div style="margin-top:26px">
+          <div class="field"><label for="q">Ask us something</label><textarea id="q" placeholder="Do you take my insurance? Can you treat this? How soon can I be seen?"></textarea></div>
+          <button class="btn btn-outline" id="askBtn">Send on WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </div></section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <a href="#home" class="mark" data-go="home">HC Sports <span>Clinic</span><small>Physio &amp; Rehab</small></a>
+      <div class="foot-nav">
+        <a href="#home" data-go="home">Home</a><a href="#conditions" data-go="conditions">What we treat</a>
+        <a href="#team" data-go="team">Team</a><a href="#book" data-go="book">Book</a><a href="#visit" data-go="visit">Find us</a>
+      </div>
+    </div>
+    <div class="foot-bot"><span id="fCopy"></span><span>Sample site built by NoirTech — not affiliated with this business.</span></div>
+  </div>
+</footer>
+
+<a class="wa-float" id="waFloat" href="#" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.4-.07-.13-.27-.2-.57-.35zM12.04 21.5h-.01a9.44 9.44 0 01-4.8-1.32l-.35-.2-3.57.94.95-3.48-.23-.36a9.4 9.4 0 01-1.44-5.03c0-5.2 4.24-9.44 9.46-9.44 2.52 0 4.9.99 6.68 2.77a9.38 9.38 0 012.76 6.68c0 5.2-4.24 9.44-9.45 9.44zM20.5 3.49A11.8 11.8 0 0012.04 0C5.5 0 .19 5.31.19 11.84c0 2.09.55 4.13 1.59 5.93L.09 24l6.37-1.67a11.83 11.83 0 005.58 1.42h.01c6.53 0 11.85-5.31 11.85-11.84 0-3.17-1.23-6.14-3.4-8.42z"/></svg>
+</a>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   CONFIG — the only block you edit for a new clinic.
+   ⚠ Session counts, prices, exercises and staff bios are SAMPLES.
+     Dr Azizi, Salman and Amin are real names from HC's Google
+     reviews; everything else must be confirmed by the clinic
+     before this goes live.
+   ═══════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  brand:"HC Sports Clinic & Physio",
+  announce:"Open Monday to Saturday &middot; <b>Same-week appointments</b> usually available",
+  sampleNote:"Sample layout by <b>NoirTech</b> &mdash; session counts, prices and exercises below are placeholders, not HC Sports Clinic's real ones.",
+  whatsapp:"60174565764",             // ← NoirTech demo number
+  phoneShow:"012-883 7079",
+  address:"G-10, Dian Residency, Persiaran Sukan,\nSeksyen 13, 40100 Shah Alam, Selangor",
+  mapsUrl:"https://maps.google.com/?q=HC+Sports+Clinic+Physio+Dian+Residency+Shah+Alam",
+  hours:[["Monday – Friday","09:00 – 18:00"],["Saturday","09:00 – 16:00"],["Sunday","Closed"]],
+  closedDays:[0],
+  times:["09:00","10:00","11:00","12:00","14:00","15:00","16:00","17:00"],
+
+  visitTypes:[
+    {id:"first",  label:"First visit",  sub:"60 min assessment + treatment", fee:150},
+    {id:"follow", label:"Follow-up",    sub:"45 min session",                fee:120}
+  ],
+
+  team:[
+    {id:"any",   name:"Anyone available", role:"Soonest slot", photo:"", hideCard:true,
+     bio:"Whoever has the earliest opening."},
+    {id:"azizi", name:"Dr Azizi", role:"Sports medicine", photo:"",
+     bio:"Assesses first, treats second. Explains what's actually causing the pain rather than just where you feel it."},
+    {id:"salman",name:"Salman",  role:"Physiotherapist", photo:"",
+     bio:"Meticulous with assessment, and thorough about walking you through the rehab exercises before you leave."},
+    {id:"amin",  name:"Amin",    role:"Physiotherapist", photo:"",
+     bio:"Hands-on manual therapy and sports massage. Good with recurring injuries that other treatment hasn't shifted."}
+  ],
+
+  prices:[
+    {name:"First visit — assessment & treatment", dur:"60 min", amt:150},
+    {name:"Follow-up session",                    dur:"45 min", amt:120},
+    {name:"Sports massage",                       dur:"60 min", amt:130},
+    {name:"Dry needling",                         dur:"add-on", amt:40},
+    {name:"Shockwave therapy",                    dur:"add-on", amt:90},
+    {name:"Home programme review",                dur:"30 min", amt:80}
+  ],
+
+  /* SIGNATURE DATA — typical course of treatment per condition */
+  conditions:[
+    {
+      id:"lowback", short:"Lower back", hint:"Stiffness, sciatica, disc pain",
+      name:"Lower back pain and sciatica", min:4, max:6,
+      desc:"The most common thing we see. Usually a mix of joint stiffness and muscle imbalance rather than one single injury, which is why the plan combines hands-on work with strengthening you do yourself.",
+      stages:[
+        ["Session 1","Assessment and first treatment. Most people feel some relief the same day."],
+        ["Sessions 2–3","Manual release and dry needling to settle the pain enough to move properly."],
+        ["Sessions 4–6","Core and hip strengthening, then discharge with a programme to keep it away."]
+      ],
+      exercises:[["Glute bridge","2 × 12, daily"],["Cat–cow","2 × 10, morning"],["Dead bug","2 × 8 each side"],["Walking","20 min, daily"]]
+    },
+    {
+      id:"neck", short:"Neck & shoulder", hint:"Desk posture, tension, headaches",
+      name:"Neck, shoulder and desk-posture pain", min:4, max:6,
+      desc:"Usually builds slowly from long hours at a laptop. Treatment relieves it quickly; keeping it away depends on the home programme and a few changes to how you sit.",
+      stages:[
+        ["Session 1","Assessment, plus manual release of the upper trapezius and neck."],
+        ["Sessions 2–4","Ongoing release, and adjustments to your desk setup."],
+        ["Sessions 5–6","Postural strengthening and discharge."]
+      ],
+      exercises:[["Chin tucks","3 × 10, hourly at work"],["Doorway chest stretch","30 sec × 3"],["Scapular squeeze","2 × 15"],["Neck side stretch","30 sec each side"]]
+    },
+    {
+      id:"knee", short:"Knee", hint:"Runner's knee, ACL, post-op",
+      name:"Knee pain and ACL rehabilitation", min:8, max:12,
+      desc:"Knees take longer than most people expect, especially after surgery. We'll be honest at the first session about what your timeline realistically looks like.",
+      stages:[
+        ["Sessions 1–2","Assessment, swelling control and restoring range of motion."],
+        ["Sessions 3–7","Progressive loading. Quadriceps and hamstring strength."],
+        ["Sessions 8–12","Return-to-sport testing before we clear you."]
+      ],
+      exercises:[["Straight leg raise","3 × 10"],["Wall sit","30 sec × 3"],["Step-ups","2 × 10 each leg"],["Calf raises","3 × 15"]]
+    },
+    {
+      id:"shoulder", short:"Frozen shoulder", hint:"Stiffness, limited reach",
+      name:"Frozen shoulder", min:8, max:12,
+      desc:"Slow to treat, but treatable — often without the surgery people are told they need. Progress comes in small increments, and consistency at home matters more than what we do in the clinic.",
+      stages:[
+        ["Sessions 1–3","Assessment and pain relief. Range of motion barely moves yet."],
+        ["Sessions 4–8","Mobilisation. This is where reach starts coming back."],
+        ["Sessions 9–12","Strengthening through the new range, then discharge."]
+      ],
+      exercises:[["Pendulum swings","2 min, 3 × daily"],["Wall walks","3 × 10"],["Towel stretch behind back","30 sec × 3"],["External rotation with band","2 × 12"]]
+    },
+    {
+      id:"sports", short:"Sports injury", hint:"Ankle, hamstring, groin",
+      name:"Acute sports injury", min:6, max:10,
+      desc:"Ankle sprains, hamstring strains, groin pulls. Getting back too early is the main reason these become recurring problems, so we test before we clear you.",
+      stages:[
+        ["Sessions 1–2","Assessment, swelling management, protected movement."],
+        ["Sessions 3–6","Loading the tissue progressively as it tolerates."],
+        ["Sessions 7–10","Sport-specific work and return-to-play testing."]
+      ],
+      exercises:[["Single-leg balance","60 sec × 3"],["Nordic curl eccentric","2 × 6"],["Ankle alphabet","2 sets"],["Lateral band walks","2 × 15"]]
+    },
+    {
+      id:"elbow", short:"Elbow & wrist", hint:"Tennis elbow, golfer's elbow",
+      name:"Tennis and golfer's elbow", min:5, max:8,
+      desc:"Tendon problems respond to loading, not rest. Most of the recovery happens in the exercises you do between visits — we'll be clear about that from the start.",
+      stages:[
+        ["Session 1","Assessment and pain relief. Most people notice a difference immediately."],
+        ["Sessions 2–4","Manual work plus the start of loading exercises."],
+        ["Sessions 5–8","Progressive strengthening, then discharge."]
+      ],
+      exercises:[["Eccentric wrist extension","3 × 15, daily"],["Forearm stretch","30 sec × 3"],["Grip squeeze","3 × 20"],["Supination with weight","2 × 12"]]
+    },
+    {
+      id:"postop", short:"Post-surgery", hint:"After an operation",
+      name:"Post-surgical rehabilitation", min:10, max:16,
+      desc:"We work from your surgeon's protocol. Bring your discharge notes and any scans to the first visit — it changes what we're allowed to do and when.",
+      stages:[
+        ["Sessions 1–4","Protected movement within the surgeon's limits."],
+        ["Sessions 5–10","Range of motion and early strengthening."],
+        ["Sessions 11–16","Full loading and return to normal activity."]
+      ],
+      exercises:[["As prescribed by your surgeon","Follow their protocol first"],["Gentle range of motion","As tolerated"],["Isometric holds","10 sec × 10"],["Walking","Build gradually"]]
+    },
+    {
+      id:"stroke", short:"Stroke rehab", hint:"Movement recovery",
+      name:"Stroke and neurological rehabilitation", min:12, max:24,
+      desc:"A long course, and progress is measured over months rather than weeks. We'll set goals with you and the family at the first session so everyone knows what we're working towards.",
+      stages:[
+        ["Sessions 1–6","Assessment, goal setting, and safety at home."],
+        ["Sessions 7–16","Movement retraining and gait work."],
+        ["Sessions 17–24","Independence and maintenance programme."]
+      ],
+      exercises:[["Sit-to-stand practice","10 reps, 3 × daily"],["Assisted walking","As advised"],["Hand grip and release","2 × 15"],["Seated marching","2 × 20"]]
+    }
+  ]
+};
+
+/* ── Utilities ─────────────────────────────────────────────── */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const rm=n=>"RM "+n, DAY=86400000;
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const nice=d=>d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
+const CAM=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8h3l2-2h8l2 2h3v11H3z"/><circle cx="12" cy="13" r="3.6"/></svg>`;
+function phFill(el,url,label){
+  el.innerHTML=url?`<img src="${url}" alt="${label||""}" loading="lazy">`
+                  :`<div class="ph-empty">${CAM}<b>${label||"Photo"}</b></div>`;
+}
+
+/* ── SIGNATURE: condition cards with session journey ───────── */
+function condCard(c){
+  const el=document.createElement("article");
+  el.className="cond-detail";
+  const filled=Math.round(c.max*0.6);
+  el.innerHTML=`
+    <button class="cd-top" aria-expanded="false">
+      <h3>${c.name}</h3>
+      <div class="cd-meta">
+        <span class="pill">${c.min}–${c.max} sessions typical</span>
+        <span class="pill cost">about ${rm(c.min*120+30)}–${rm(c.max*120+30)} total</span>
+      </div>
+      <span class="chev"></span>
+    </button>
+    <div class="cd-body">
+      <p>${c.desc}</p>
+
+      <div class="journey">
+        <p class="j-head">How the course usually goes</p>
+        <div class="j-track">
+          ${Array.from({length:c.max},(_,i)=>
+            `<span class="j-step ${i<c.min?"fill":i<filled+2?"taper":""}"></span>`).join("")}
+        </div>
+        <div class="j-notes">
+          ${c.stages.map(([k,v])=>`<div class="j-note"><b>${k}</b><span>${v}</span></div>`).join("")}
+        </div>
+      </div>
+
+      <p class="ex-head">What you'll be doing at home</p>
+      <div class="ex-grid">
+        ${c.exercises.map(([n,d])=>`<div class="ex"><b>${n}</b><span>${d}</span></div>`).join("")}
+      </div>
+      <p class="ex-note">These are examples of what a programme might include. Your therapist will prescribe what's right for you at your assessment — don't start any of them without being shown how.</p>
+
+      <button class="btn btn-primary" style="margin-top:22px" data-bookcond="${c.id}">Book for this</button>
+    </div>`;
+  el.querySelector(".cd-top").addEventListener("click",e=>{
+    const open=el.classList.toggle("open");
+    e.currentTarget.setAttribute("aria-expanded",open);
+  });
+  el.querySelector("[data-bookcond]").addEventListener("click",()=>{
+    sel.cond=c; renderBookCond(); sync(); go("book");
+  });
+  return el;
+}
+
+/* ── Team ──────────────────────────────────────────────────── */
+function memberCard(m){
+  const el=document.createElement("article");
+  el.className="member";
+  el.innerHTML=`
+    <div class="ph"></div>
+    <div class="member-body">
+      <h3>${m.name}</h3>
+      <p class="role">${m.role}</p>
+      <p class="bio">${m.bio}</p>
+    </div>`;
+  phFill(el.querySelector(".ph"),m.photo,m.name);
+  return el;
+}
+
+/* ── Booking ───────────────────────────────────────────────── */
+let sel={visit:CONFIG.visitTypes[0], cond:null, who:CONFIG.team[0], date:"", time:null};
+
+function renderBookVisit(){
+  $("#bVisit").innerHTML=CONFIG.visitTypes.map(v=>
+    `<button class="opt${sel.visit.id===v.id?" on":""}" data-v="${v.id}">${v.label}<small>${v.sub} · ${rm(v.fee)}</small></button>`).join("");
+  $$("#bVisit .opt").forEach(x=>x.addEventListener("click",()=>{
+    sel.visit=CONFIG.visitTypes.find(v=>v.id===x.dataset.v); renderBookVisit(); sync();
+  }));
+}
+function renderBookCond(){
+  $("#bCond").innerHTML=CONFIG.conditions.map(c=>
+    `<button class="opt${sel.cond&&sel.cond.id===c.id?" on":""}" data-c="${c.id}">${c.short}</button>`).join("")
+    +`<button class="opt${sel.cond===null?"":""}" data-c="other">Something else</button>`;
+  $$("#bCond .opt").forEach(x=>x.addEventListener("click",()=>{
+    sel.cond = x.dataset.c==="other" ? {id:"other",short:"Something else"} : CONFIG.conditions.find(c=>c.id===x.dataset.c);
+    renderBookCond(); sync();
+  }));
+}
+function renderBookTeam(){
+  $("#bTeam").innerHTML=CONFIG.team.map(m=>
+    `<button class="opt${sel.who.id===m.id?" on":""}" data-m="${m.id}">${m.name}<small>${m.role}</small></button>`).join("");
+  $$("#bTeam .opt").forEach(x=>x.addEventListener("click",()=>{
+    sel.who=CONFIG.team.find(m=>m.id===x.dataset.m); renderBookTeam(); sync();
+  }));
+}
+function renderTimes(){
+  const box=$("#bTimes"); box.innerHTML="";
+  const val=$("#bDate").value;
+  const closed=val&&CONFIG.closedDays.includes(new Date(val+"T00:00").getDay());
+  CONFIG.times.forEach(t=>{
+    const b=document.createElement("button");
+    b.type="button"; b.className="opt"+(sel.time===t?" on":"");
+    b.textContent=t; b.disabled=!val||closed;
+    b.addEventListener("click",()=>{sel.time=t;renderTimes();sync()});
+    box.appendChild(b);
+  });
+  if(closed){
+    const p=document.createElement("p");
+    p.style.cssText="color:var(--muted);font-size:14px;width:100%";
+    p.textContent="The clinic is closed that day — try another date.";
+    box.appendChild(p);
+  }
+}
+function sync(){
+  $("#sVisit").textContent=sel.visit.label;
+  $("#sCond").textContent=sel.cond?sel.cond.short:"—";
+  $("#sWho").textContent=sel.who.name;
+  $("#sDate").textContent=sel.date?nice(new Date(sel.date+"T00:00")):"—";
+  $("#sTime").textContent=sel.time||"—";
+  $("#sFee").textContent=rm(sel.visit.fee);
+}
+$("#bDate").addEventListener("change",e=>{sel.date=e.target.value;sel.time=null;renderTimes();sync()});
+
+/* WhatsApp is the backend — no server, no monthly fee */
+const wa=t=>`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(t)}`;
+$("#confirm").addEventListener("click",()=>{
+  const nm=$("#bName").value.trim(), ph=$("#bPhone").value.trim();
+  const miss=[];
+  if(!sel.cond)miss.push("what's bothering you");
+  if(!sel.date)miss.push("a date");
+  if(!sel.time)miss.push("a time");
+  if(!nm)miss.push("your name");
+  if(!ph)miss.push("your phone number");
+  const err=$("#err");
+  if(miss.length){err.textContent="Still need "+miss.join(", ")+".";err.classList.add("on");return}
+  err.classList.remove("on");
+  const notes=$("#bNotes").value.trim();
+  window.open(wa(
+`Hi ${CONFIG.brand}, I'd like to book:
+
+Type: ${sel.visit.label} (${sel.visit.sub})
+Concern: ${sel.cond.short}
+Preferred therapist: ${sel.who.name}
+Date: ${new Date(sel.date+"T00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"})}
+Time: ${sel.time}
+Session fee: ${rm(sel.visit.fee)}
+
+Name: ${nm}
+Phone: ${ph}${notes?`\n\nBackground:\n${notes}`:""}
+
+Sent from your website.`),"_blank","noopener");
+});
+$("#askBtn").addEventListener("click",()=>window.open(wa($("#q").value.trim()||`Hi ${CONFIG.brand}, I have a question.`),"_blank","noopener"));
+$("#waFloat").addEventListener("click",e=>{e.preventDefault();window.open(wa(`Hi ${CONFIG.brand}, I'd like to ask about an appointment.`),"_blank","noopener")});
+
+/* ── Chrome ────────────────────────────────────────────────── */
+function go(id){
+  $$(".page").forEach(p=>p.classList.toggle("on",p.id===id));
+  $$(".nav-links a").forEach(a=>a.classList.toggle("on",a.dataset.go===id));
+  $("#navlinks").classList.remove("open");
+  window.scrollTo({top:0,behavior:"instant"});
+  history.replaceState(null,"","#"+id);
+}
+document.addEventListener("click",e=>{const t=e.target.closest("[data-go]");if(t){e.preventDefault();go(t.dataset.go)}});
+$("#burger").addEventListener("click",e=>{
+  const o=$("#navlinks").classList.toggle("open");
+  e.currentTarget.setAttribute("aria-expanded",o);
+});
+
+/* ── Boot ──────────────────────────────────────────────────── */
+(function init(){
+  $("#sampleBar").innerHTML=CONFIG.sampleNote;
+  $("#ann").innerHTML=CONFIG.announce;
+
+  /* Hero condition picker */
+  $("#condRow").innerHTML=CONFIG.conditions.slice(0,6).map(c=>
+    `<button class="cond" data-c="${c.id}"><b>${c.short}</b><span>${c.hint}</span></button>`).join("");
+  $$("#condRow .cond").forEach(b=>b.addEventListener("click",()=>{
+    go("conditions");
+    const card=$$("#condList .cond-detail")[CONFIG.conditions.findIndex(c=>c.id===b.dataset.c)];
+    if(card){ card.classList.add("open"); card.scrollIntoView({behavior:"smooth",block:"center"}); }
+  }));
+
+  const list=$("#condList");
+  CONFIG.conditions.forEach(c=>list.appendChild(condCard(c)));
+
+  $("#priceList").innerHTML=CONFIG.prices.map(p=>`
+    <div class="price-row"><div class="nm"><h3>${p.name}</h3><p class="dur">${p.dur}</p></div>
+    <p class="amt">${rm(p.amt)}</p></div>`).join("");
+
+  const ht=$("#homeTeam"), at=$("#allTeam");
+  CONFIG.team.filter(m=>!m.hideCard).forEach(m=>{
+    ht.appendChild(memberCard(m)); at.appendChild(memberCard(m));
+  });
+
+  renderBookVisit(); renderBookCond(); renderBookTeam();
+  const today=new Date(); today.setHours(0,0,0,0);
+  $("#bDate").min=iso(today); $("#bDate").max=iso(new Date(+today+60*DAY));
+  renderTimes(); sync();
+
+  $$("[data-ph]").forEach(el=>phFill(el,"",el.dataset.ph));
+  $("#vAddr").innerHTML=CONFIG.address.replace(/\n/g,"<br>");
+  const vp=$("#vPhone"); vp.textContent=CONFIG.phoneShow; vp.href="https://wa.me/"+CONFIG.whatsapp;
+  $("#vHours").innerHTML=CONFIG.hours.map(([d,h])=>
+    `<li><span>${d}</span><span class="${/closed/i.test(h)?"closed":""}">${h}</span></li>`).join("");
+  $("#mapBtn").href=CONFIG.mapsUrl;
+  $("#fCopy").textContent="© "+new Date().getFullYear()+" "+CONFIG.brand;
+
+  if(location.hash&&document.getElementById(location.hash.slice(1))) go(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>
